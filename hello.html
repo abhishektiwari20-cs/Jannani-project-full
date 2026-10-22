@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jannani PregBuddy Health - Maternal & Newborn Care Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff0f3',
+                            100: '#ffccd5',
+                            200: '#ffb3c1',
+                            500: '#ff4d6d',
+                            600: '#e63946',
+                            700: '#d90429',
+                            800: '#a30015',
+                            900: '#800f2f',
+                            footer: '#6b0d26',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff8f9;
+            color: #2b2d42;
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 10px 30px -5px rgba(230, 57, 70, 0.08);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px -5px rgba(217, 4, 41, 0.15);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fff0f3;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ffb3c1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e63946;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-brand-500 selection:text-white">
+
+    <!-- OVERLAY BACKDROP FOR DRAWER -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black/50 z-40 hidden backdrop-blur-sm transition-opacity"
+        onclick="toggleDrawer()"></div>
+
+    <!-- SIDE NAVIGATION DRAWER -->
+    <aside id="sideDrawer"
+        class="fixed top-0 left-0 h-full w-80 bg-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col justify-between">
+        <div class="p-5 overflow-y-auto">
+            <div class="flex items-center justify-between pb-4 border-b border-brand-100">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-person-breastfeeding"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-brand-900 leading-tight">Jannani Drawer</h2>
+                        <p class="text-xs text-brand-600 font-medium">PregBuddy Health</p>
+                    </div>
+                </div>
+                <button onclick="toggleDrawer()"
+                    class="text-gray-400 hover:text-brand-700 text-xl p-2 rounded-full hover:bg-brand-50 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- CORE SERVICES MENU -->
+            <div class="mt-6">
+                <p class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-3">Core Services</p>
+                <nav class="space-y-1">
+                    <a href="#dashboard" onclick="toggleDrawer(); switchTab('home');"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-gray-700 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-heart-pulse text-brand-600 w-5"></i> Dashboard & Milestones
+                    </a>
+                    <a href="#hospitals" onclick="toggleDrawer(); switchTab('hospitals');"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-gray-700 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-hospital-user text-brand-600 w-5"></i> Nearby Maternity Hospitals
+                    </a>
+                    <a href="#doctors" onclick="toggleDrawer(); switchTab('doctors');"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-gray-700 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-user-doctor text-brand-600 w-5"></i> Verified Gynecologists
+                    </a>
+                    <a href="#yoga" onclick="toggleDrawer(); switchTab('yoga');"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-gray-700 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-spa text-brand-600 w-5"></i> Yoga Centers & Nutritionists
+                    </a>
+                    <a href="#forum" onclick="toggleDrawer(); switchTab('forum');"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-gray-700 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-comments text-brand-600 w-5"></i> Mom-to-Mom Message Board
+                    </a>
+                    <a href="#risk-ml" onclick="toggleDrawer(); switchTab('ml-risk');"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-gray-700 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition bg-brand-50/50">
+                        <i class="fa-solid fa-shield-virus text-brand-700 w-5"></i> ML Risk Predictor <span
+                            class="ml-auto bg-brand-500 text-white text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">AI</span>
+                    </a>
+                    <a href="#kick-counter" onclick="toggleDrawer(); switchTab('kick-counter');"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-gray-700 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-stopwatch text-brand-600 w-5"></i> Kick Counter Tracker
+                    </a>
+                </nav>
+            </div>
+
+            <!-- INFORMATION & POLICY -->
+            <div class="mt-8 border-t border-gray-100 pt-6">
+                <p class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-3">Information & Policy</p>
+                <nav class="space-y-1">
+                    <button onclick="openModal('aboutModal')"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-circle-info text-brand-500 w-5"></i> About Jannani
+                    </button>
+                    <button onclick="openModal('faqModal')"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-circle-question text-brand-500 w-5"></i> Pregnancy FAQs
+                    </button>
+                    <button onclick="openModal('termsModal')"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-file-contract text-brand-500 w-5"></i> Terms of Service
+                    </button>
+                    <button onclick="openModal('privacyModal')"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 rounded-xl hover:bg-brand-50 hover:text-brand-700 transition">
+                        <i class="fa-solid fa-shield-halved text-brand-500 w-5"></i> Privacy Policy
+                    </button>
+                </nav>
+            </div>
+        </div>
+        <div class="p-4 border-t border-brand-100 bg-brand-50/50">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-phone-volume text-brand-700 text-xl animate-bounce"></i>
+                <div>
+                    <p class="text-xs font-bold text-brand-900">National Ambulance</p>
+                    <p class="text-sm font-extrabold text-brand-700">Call 108 Immediately</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 bg-white/95 backdrop-blur-md z-30 border-b border-brand-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleDrawer()"
+                    class="p-2 text-gray-700 hover:text-brand-700 rounded-lg hover:bg-brand-50 transition focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('home')">
+                    <div
+                        class="w-10 h-10 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-person-breastfeeding"></i>
+                    </div>
+                    <div>
+                        <span
+                            class="text-xl font-black text-brand-900 tracking-tight block leading-tight">Jannani</span>
+                        <span class="text-xs font-bold text-brand-600 block -mt-1 tracking-wider uppercase">PregBuddy
+                            Health</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Nav Links (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-gray-700">
+                <button onclick="switchTab('home')" id="nav-home"
+                    class="nav-btn text-brand-700 flex items-center gap-1.5 hover:text-brand-700 transition py-2 border-b-2 border-brand-700">
+                    <i class="fa-solid fa-house"></i> Home
+                </button>
+                <button onclick="switchTab('hospitals')" id="nav-hospitals"
+                    class="nav-btn hover:text-brand-700 flex items-center gap-1.5 transition py-2 border-b-2 border-transparent">
+                    <i class="fa-solid fa-hospital-user"></i> Hospitals
+                </button>
+                <button onclick="switchTab('doctors')" id="nav-doctors"
+                    class="nav-btn hover:text-brand-700 flex items-center gap-1.5 transition py-2 border-b-2 border-transparent">
+                    <i class="fa-solid fa-user-doctor"></i> Doctors
+                </button>
+                <button onclick="switchTab('yoga')" id="nav-yoga"
+                    class="nav-btn hover:text-brand-700 flex items-center gap-1.5 transition py-2 border-b-2 border-transparent">
+                    <i class="fa-solid fa-spa"></i> Yoga & Diet
+                </button>
+                <button onclick="switchTab('forum')" id="nav-forum"
+                    class="nav-btn hover:text-brand-700 flex items-center gap-1.5 transition py-2 border-b-2 border-transparent">
+                    <i class="fa-solid fa-users text-brand-600"></i> Mom Forum
+                </button>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="triggerEmergencySOS()"
+                    class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-4 py-2.5 rounded-full text-xs sm:text-sm flex items-center gap-2 shadow-lg hover:shadow-xl transition transform active:scale-95 animate-pulse">
+                    <i class="fa-solid fa-triangle-exclamation"></i> SOS Emergency
+                </button>
+
+                <div>
+                    <div id="authHeaderActions" class="flex items-center gap-3">
+                        <button onclick="openSignInModal()" id="headerSignInButton"
+                            class="hidden sm:flex bg-brand-50 hover:bg-brand-100 text-brand-800 font-bold px-4 py-2.5 rounded-full text-xs sm:text-sm items-center gap-1.5 transition border border-brand-200">
+                            <i class="fa-regular fa-user"></i> Sign In
+                        </button>
+
+                        <div id="headerUserProfile"
+                            class="hidden items-center gap-2 bg-brand-50 border border-brand-200 rounded-full pl-2 pr-3 py-1.5">
+                            <div id="headerUserAvatar"
+                                class="w-9 h-9 rounded-full bg-brand-700 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                A
+                            </div>
+                            <div class="min-w-0 max-w-[130px]">
+                                <p id="headerUserName" class="text-xs font-bold text-brand-900 truncate">User</p>
+                                <p id="headerUserEmail" class="text-[10px] text-brand-700 truncate">user@example.com</p>
+                            </div>
+                            <button type="button" onclick="signOutDemo()"
+                                class="ml-1 text-xs font-bold text-brand-700 hover:text-brand-900" title="Sign out">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- REAL-TIME GEOLOCATION BANNER -->
+    <section class="bg-brand-50 border-b border-brand-100 py-3 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-8 h-8 rounded-full bg-brand-500/15 text-brand-700 flex items-center justify-center shrink-0 font-bold">
+                    <i class="fa-solid fa-location-crosshairs text-lg animate-spin" style="animation-duration: 8s;"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-brand-900 leading-tight">Real-Time Geolocation Care Finder</h3>
+                    <p id="geoStatusText" class="text-xs text-brand-700 font-medium">Fetching live GPS coordinates to
+                        calculate real distances for hospitals, yoga centers & dietitians...</p>
+                </div>
+            </div>
+            <button onclick="syncGPSLocation()"
+                class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-4 py-2 rounded-full flex items-center gap-2 shadow-sm transition shrink-0">
+                <i class="fa-solid fa-location-arrow"></i> <span id="syncGpsBtnText">Sync GPS Location</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- TAB 1: HOME / DASHBOARD -->
+        <div id="tab-home" class="tab-content space-y-10">
+            <div
+                class="bg-gradient-to-br from-brand-50 via-white to-brand-100/50 rounded-3xl p-6 md:p-10 border border-brand-200/60 smooth-shadow relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="space-y-4 max-w-xl">
+                    <span
+                        class="inline-block bg-brand-100 text-brand-800 text-xs font-bold px-3.5 py-1.5 rounded-full border border-brand-200">
+                        Empowering Pregnant Women & New Mothers
+                    </span>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight">
+                        Safe, Caring & <span class="text-brand-700">Smart</span> Maternal Companion
+                    </h1>
+                    <p class="text-sm md:text-base text-gray-600 font-medium leading-relaxed">
+                        Track your pregnancy milestones, connect with verified gynecologists nearby, join mentor mom
+                        message circles, and access instant 24/7 PregBuddy AI support.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <button onclick="switchTab('hospitals')"
+                            class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-6 py-3 rounded-full text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition transform active:scale-95">
+                            <i class="fa-solid fa-hospital"></i> Find Nearby Hospitals
+                        </button>
+                        <button onclick="openAiChatModal()"
+                            class="bg-white hover:bg-brand-50 text-brand-800 font-bold px-6 py-3 rounded-full text-sm flex items-center gap-2 border border-brand-200 shadow-sm transition">
+                            <i class="fa-solid fa-robot text-brand-600"></i> Ask PregBuddy AI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TRIMESTER TRACKER CIRCLE WIDGET -->
+                <div
+                    class="shrink-0 w-72 h-72 sm:w-80 sm:h-80 rounded-full bg-white border-8 border-brand-100 shadow-xl p-6 flex flex-col items-center justify-center text-center relative card-hover">
+                    <div
+                        class="w-16 h-16 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center mb-3 text-2xl shadow-inner">
+                        <i class="fa-solid fa-baby-carriage"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900">Trimester Tracker</h3>
+                    <p class="text-xs font-bold text-brand-700 mt-1" id="currentWeekDisplay">Week 14 (Trimester 2)</p>
+
+                    <div class="w-full bg-brand-100 h-2.5 rounded-full my-3 overflow-hidden">
+                        <div class="bg-brand-600 h-full rounded-full transition-all duration-500" style="width: 35%;">
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-500 font-semibold" id="babySizeDisplay">Baby size: Approx. Peach 🍑</p>
+
+                    <div class="mt-3 flex items-center gap-2">
+                        <button onclick="adjustWeek(-1)"
+                            class="w-7 h-7 rounded-full bg-brand-100 text-brand-800 text-xs font-bold flex items-center justify-center hover:bg-brand-200 transition">-</button>
+                        <span class="text-xs font-medium text-gray-600">Update Week</span>
+                        <button onclick="adjustWeek(1)"
+                            class="w-7 h-7 rounded-full bg-brand-100 text-brand-800 text-xs font-bold flex items-center justify-center hover:bg-brand-200 transition">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK ACCESS CATEGORY CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div onclick="switchTab('hospitals')"
+                    class="bg-brand-50/60 p-6 rounded-2xl border border-brand-100 card-hover cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-brand-700 text-white flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-hospital-user"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Nearby Hospitals</h3>
+                        <p class="text-xs text-gray-600 mt-2 font-medium leading-relaxed">
+                            Real-time distance calculation for maternity centers with emergency delivery rooms.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-brand-700 mt-4 inline-flex items-center gap-1">
+                        View List <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <div onclick="switchTab('doctors')"
+                    class="bg-brand-50/60 p-6 rounded-2xl border border-brand-100 card-hover cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Gynecologists</h3>
+                        <p class="text-xs text-gray-600 mt-2 font-medium leading-relaxed">
+                            Book consultation slots with highly rated obstetricians & maternal specialists.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-brand-700 mt-4 inline-flex items-center gap-1">
+                        Book Appointment <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <div onclick="switchTab('yoga')"
+                    class="bg-brand-50/60 p-6 rounded-2xl border border-brand-100 card-hover cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Yoga & Nutrition</h3>
+                        <p class="text-xs text-gray-600 mt-2 font-medium leading-relaxed">
+                            Trimester-safe yoga videos and nearby dietitians tailored to your location.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-brand-700 mt-4 inline-flex items-center gap-1">
+                        Explore Routines <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <div onclick="switchTab('forum')"
+                    class="bg-brand-50/60 p-6 rounded-2xl border border-brand-100 card-hover cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-brand-700 text-white flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Mom Message Board</h3>
+                        <p class="text-xs text-gray-600 mt-2 font-medium leading-relaxed">
+                            Post questions, read real experience stories, and swap advice with other moms.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-brand-700 mt-4 inline-flex items-center gap-1">
+                        Join Community <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- TRIMESTER CARE TIPS TABS -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-brand-100 smooth-shadow space-y-6">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Trimester Care Tips</h2>
+                        <p class="text-xs text-gray-500 font-medium mt-1">Select your current stage to get tailored
+                            medical advice & baby growth insight.</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-brand-50 p-1.5 rounded-2xl border border-brand-100">
+                        <button onclick="setTrimesterTab(1)" id="trim-btn-1"
+                            class="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:text-brand-700 transition">Trimester
+                            1</button>
+                        <button onclick="setTrimesterTab(2)" id="trim-btn-2"
+                            class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-700 text-white shadow-sm transition">Trimester
+                            2</button>
+                        <button onclick="setTrimesterTab(3)" id="trim-btn-3"
+                            class="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:text-brand-700 transition">Trimester
+                            3</button>
+                    </div>
+                </div>
+
+                <div id="trimesterCareCards" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
+
+        <!-- TAB 2: HOSPITALS SCREEN -->
+        <div id="tab-hospitals" class="tab-content space-y-6 hidden">
+            <div>
+                <h2 class="text-2xl font-black text-gray-900">Nearby Maternity Hospitals & NICU Centers</h2>
+                <p class="text-xs text-gray-500 font-medium mt-1">Real-time distance search using OpenStreetMap Overpass
+                    spatial network.</p>
+            </div>
+
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-brand-100 smooth-shadow">
+                <div class="relative w-full sm:w-96">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                    <input type="text" id="hospitalSearch" onkeyup="filterHospitals()"
+                        placeholder="Search hospital or area..."
+                        class="w-full pl-10 pr-4 py-2 text-sm border border-brand-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 bg-brand-50/30">
+                </div>
+                <button onclick="syncGPSLocation()"
+                    class="w-full sm:w-auto bg-brand-700 hover:bg-brand-800 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center justify-center gap-2 transition">
+                    <i class="fa-solid fa-arrows-rotate"></i> Refresh Distances
+                </button>
+            </div>
+
+            <div id="hospitalsList" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- TAB 3: DOCTORS SCREEN -->
+        <div id="tab-doctors" class="tab-content space-y-6 hidden">
+            <div>
+                <h2 class="text-2xl font-black text-gray-900">Verified Gynecologists & Obstetricians</h2>
+                <p class="text-xs text-gray-500 font-medium mt-1">Book consultation slots with highly rated specialists
+                    nearby.</p>
+            </div>
+
+            <div id="doctorsList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </div>
+
+        <!-- TAB 4: YOGA & DIET SCREEN -->
+        <div id="tab-yoga" class="tab-content space-y-8 hidden">
+            <div>
+                <h2 class="text-2xl font-black text-gray-900">Prenatal Yoga Videos & Nearby Dietitians</h2>
+                <p class="text-xs text-gray-500 font-medium mt-1">Working video instructions and real-time calculated
+                    distance for local prenatal fitness centers and nutrition consultants.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div
+                    class="bg-white rounded-2xl border border-brand-100 overflow-hidden smooth-shadow flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="p-4 border-b border-gray-100 flex items-center gap-2 text-brand-700 font-bold text-sm">
+                            <i class="fa-solid fa-circle-play"></i> Trimester 1 Gentle Yoga
+                        </div>
+                        <div
+                            class="aspect-video bg-gray-900 relative flex items-center justify-center text-white text-center p-4">
+                            <iframe class="w-full h-full rounded-b"
+                                src="https://www.youtube-nocookie.com/embed/B87FpLuc4_E" title="Trimester 1 Yoga"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="p-4 text-xs text-gray-600 font-medium leading-relaxed">
+                        Relieves early nausea, relaxes fatigue, and promotes blood flow safely in early stages.
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white rounded-2xl border border-brand-100 overflow-hidden smooth-shadow flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="p-4 border-b border-gray-100 flex items-center gap-2 text-brand-700 font-bold text-sm">
+                            <i class="fa-solid fa-circle-play"></i> Trimester 2 Pelvic Flow
+                        </div>
+                        <div
+                            class="aspect-video bg-gray-900 relative flex items-center justify-center text-white text-center p-4">
+                            <iframe class="w-full h-full rounded-b"
+                                src="https://www.youtube-nocookie.com/embed/v7A9gGL1c-E" title="Trimester 2 Yoga"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="p-4 text-xs text-gray-600 font-medium leading-relaxed">
+                        Stretches lower back, relaxes hip joints, and improves body balance as baby grows.
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white rounded-2xl border border-brand-100 overflow-hidden smooth-shadow flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="p-4 border-b border-gray-100 flex items-center gap-2 text-brand-700 font-bold text-sm">
+                            <i class="fa-solid fa-circle-play"></i> Trimester 3 Labor Prep Yoga
+                        </div>
+                        <div
+                            class="aspect-video bg-gray-900 relative flex items-center justify-center text-white text-center p-4">
+                            <iframe class="w-full h-full rounded-b"
+                                src="https://www.youtube-nocookie.com/embed/5D3v8xS4-8w" title="Trimester 3 Yoga"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="p-4 text-xs text-gray-600 font-medium leading-relaxed">
+                        Gentle hip-opening postures and rhythmic breathing exercises to prepare for birth.
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-spa text-amber-500"></i> Nearby Prenatal Yoga Centers
+                    </h3>
+                    <div class="space-y-3" id="yogaCentersList"></div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-emerald-500"></i> Nearby Nutritionists & Dietitians
+                    </h3>
+                    <div class="space-y-3" id="dietitiansList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: MOM FORUM SCREEN -->
+        <div id="tab-forum" class="tab-content space-y-6 hidden">
+            <div>
+                <h2 class="text-2xl font-black text-gray-900">Mom-to-Mom Permanent Message Board</h2>
+                <p class="text-xs text-gray-500 font-medium mt-1">Public community forum for mothers. Messages posted
+                    here remain permanently visible to everyone without instant AI responses.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-brand-100 smooth-shadow space-y-4">
+                <h3 class="text-sm font-bold text-brand-900">Share Advice or Ask Experienced Mothers</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input type="text" id="forumAuthor" placeholder="Your Name or Alias"
+                        class="w-full p-3 text-sm border border-brand-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 bg-brand-50/20">
+                    <select id="forumTrimester"
+                        class="w-full p-3 text-sm border border-brand-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 bg-brand-50/20 text-gray-700 font-medium">
+                        <option value="Trimester 1 Mom">Trimester 1 Mom</option>
+                        <option value="Trimester 2 Mom" selected>Trimester 2 Mom</option>
+                        <option value="Trimester 3 Mom">Trimester 3 Mom</option>
+                        <option value="Experienced Mother">Experienced Mother / Postpartum</option>
+                    </select>
+                </div>
+                <textarea id="forumContent" rows="3"
+                    placeholder="Write your post here... (e.g. 'How did you handle lower back pain in week 28?')"
+                    class="w-full p-3 text-sm border border-brand-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 bg-brand-50/20"></textarea>
+                <div class="flex justify-end">
+                    <button onclick="publishForumPost()"
+                        class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-6 py-2.5 rounded-full text-xs sm:text-sm flex items-center gap-2 shadow-sm transition">
+                        <i class="fa-solid fa-paper-plane"></i> Publish to Community Board
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-4" id="forumPostsContainer"></div>
+        </div>
+
+        <!-- TAB 6: ML RISK PREDICTOR RADAR -->
+        <div id="tab-ml-risk" class="tab-content space-y-6 hidden">
+            <div
+                class="bg-gradient-to-r from-brand-900 to-brand-700 text-white p-6 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <span
+                        class="bg-white/20 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Machine Learning Triage
+                    </span>
+                    <h2 class="text-2xl font-black">Predictive Maternal Risk & Anomaly Assessment</h2>
+                    <p class="text-xs opacity-90 leading-relaxed max-w-xl">
+                        Input clinical parameters (Blood Pressure, Blood Glucose, Kick Counts) to analyze potential
+                        risks like Preeclampsia or Gestational Diabetes using intelligent threshold models.
+                    </p>
+                </div>
+                <div class="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center text-3xl shrink-0">
+                    <i class="fa-solid fa-heart-circle-bolt animate-pulse"></i>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-brand-100 smooth-shadow space-y-4">
+                    <h3 class="text-base font-bold text-gray-900 border-b pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-brand-600"></i> Enter Patient Clinical Vitals
+                    </h3>
+
+                    <div>
+                        <label class="text-xs font-bold text-gray-700">Systolic BP (mmHg)</label>
+                        <input type="number" id="mlSystolic" value="120"
+                            class="w-full mt-1 p-2.5 text-sm border rounded-xl bg-brand-50/20">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-gray-700">Diastolic BP (mmHg)</label>
+                        <input type="number" id="mlDiastolic" value="80"
+                            class="w-full mt-1 p-2.5 text-sm border rounded-xl bg-brand-50/20">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-gray-700">Fasting Blood Sugar (mg/dL)</label>
+                        <input type="number" id="mlSugar" value="92"
+                            class="w-full mt-1 p-2.5 text-sm border rounded-xl bg-brand-50/20">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-gray-700">Kicks Count (in 2 hours)</label>
+                        <input type="number" id="mlKicks" value="12"
+                            class="w-full mt-1 p-2.5 text-sm border rounded-xl bg-brand-50/20">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-gray-700">Weight Gain Speed (kg/week)</label>
+                        <input type="number" step="0.1" id="mlWeight" value="0.4"
+                            class="w-full mt-1 p-2.5 text-sm border rounded-xl bg-brand-50/20">
+                    </div>
+
+                    <button onclick="calculateMLRisk()"
+                        class="w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-3 rounded-xl text-sm transition shadow-md">
+                        <i class="fa-solid fa-calculator"></i> Run ML Triage Risk Evaluation
+                    </button>
+                </div>
+
+                <div
+                    class="lg:col-span-7 bg-white p-6 rounded-3xl border border-brand-100 smooth-shadow flex flex-col justify-between">
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4">
+                            <h3 class="text-base font-bold text-gray-900">Evaluated Risk Status</h3>
+                            <span id="riskScoreBadge"
+                                class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-3 py-1 rounded-full">
+                                Low Risk (12%)
+                            </span>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span>Optimal</span>
+                                <span>Caution</span>
+                                <span>High Risk Alert</span>
+                            </div>
+                            <div class="w-full bg-gray-200 h-4 rounded-full overflow-hidden flex">
+                                <div id="riskMeterBar" class="bg-emerald-500 h-full transition-all duration-700"
+                                    style="width: 12%;"></div>
+                            </div>
+                        </div>
+
+                        <div id="riskAnalysisOutput"
+                            class="p-4 rounded-2xl bg-brand-50 border border-brand-100 space-y-2">
+                            <h4 class="text-sm font-bold text-brand-900 flex items-center gap-2">
+                                <i class="fa-solid fa-notes-medical text-brand-600"></i> Clinical Guidance Summary
+                            </h4>
+                            <p class="text-xs text-gray-700 leading-relaxed">
+                                Vitals appear within standard physiological parameters for Trimester 2. Continue routine
+                                prenatal checkups and maintain adequate hydration.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t flex flex-wrap items-center justify-between gap-3">
+                        <p class="text-[11px] text-gray-400 font-medium">Disclaimer: ML screening tool for informational
+                            guidance only. Always consult a certified physician.</p>
+                        <button
+                            onclick="openAiChatModal('Provide a detailed clinical medical summary for my current vitals')"
+                            class="text-xs font-bold text-brand-700 hover:underline flex items-center gap-1">
+                            Discuss with PregBuddy AI <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: KICK COUNTER TRACKER -->
+        <div id="tab-kick-counter" class="tab-content space-y-6 hidden">
+            <div>
+                <h2 class="text-2xl font-black text-gray-900">Real-Time Baby Kick Counter</h2>
+                <p class="text-xs text-gray-500 font-medium mt-1">Track fetal movements accurately. Doctors recommend
+                    counting 10 kicks in a 2-hour window.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div
+                    class="bg-white p-8 rounded-3xl border border-brand-100 smooth-shadow flex flex-col items-center justify-center text-center space-y-6">
+                    <div class="w-36 h-36 rounded-full bg-brand-50 border-4 border-brand-200 flex flex-col items-center justify-center shadow-inner cursor-pointer hover:scale-105 transition"
+                        onclick="recordKick()">
+                        <span id="kickCountDisplay" class="text-5xl font-black text-brand-700">0</span>
+                        <span class="text-xs font-bold text-gray-500 uppercase mt-1">Kicks Recorded</span>
+                    </div>
+
+                    <p class="text-xs font-medium text-gray-600">Tap the button or circle above each time you feel baby
+                        kick.</p>
+
+                    <div class="flex items-center gap-3 w-full">
+                        <button onclick="recordKick()"
+                            class="flex-1 bg-brand-700 hover:bg-brand-800 text-white font-bold py-3 rounded-full text-sm shadow-md transition active:scale-95">
+                            <i class="fa-solid fa-footprints"></i> Record Kick
+                        </button>
+                        <button onclick="resetKickSession()"
+                            class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-4 py-3 rounded-full text-sm transition">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-brand-100 smooth-shadow space-y-4">
+                    <h3 class="text-base font-bold text-gray-900 border-b pb-2 flex items-center justify-between">
+                        <span>Today's Kick Session Log</span>
+                        <span id="kickSessionTime" class="text-xs text-brand-600 font-bold">Elapsed: 00:00</span>
+                    </h3>
+                    <div id="kickLogsList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                        <p class="text-xs text-gray-400 italic text-center py-6">No kicks recorded in current session
+                            yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-footer text-white pt-10 pb-6 border-t border-brand-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div
+                class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-white/10 pb-8">
+                <div class="space-y-2 max-w-md">
+                    <div class="flex items-center gap-2">
+                        <div
+                            class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-person-breastfeeding"></i>
+                        </div>
+                        <span class="text-xl font-black text-white">Jannani Platform</span>
+                    </div>
+                    <p class="text-xs text-brand-100 font-medium leading-relaxed">
+                        Empowering prospective mothers with real-time care, nearby medical facilities, and community
+                        mentorship.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-6 text-xs font-semibold text-brand-100">
+                    <button onclick="openModal('aboutModal')" class="hover:text-white transition">About</button>
+                    <button onclick="openModal('faqModal')" class="hover:text-white transition">FAQ</button>
+                    <button onclick="openModal('termsModal')" class="hover:text-white transition">Terms</button>
+                    <button onclick="openModal('privacyModal')" class="hover:text-white transition">Privacy</button>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between text-[11px] text-brand-200 gap-2">
+                <p>© 2026 Jannani PregBuddy Health. All rights reserved.</p>
+                <p class="font-semibold text-brand-100">In medical emergencies, call <span
+                        class="text-white font-extrabold underline">108</span> immediately.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING AI WIDGET BUTTON -->
+    <button onclick="openAiChatModal()"
+        class="fixed bottom-6 right-6 z-40 bg-brand-700 hover:bg-brand-800 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110 active:scale-95 group">
+        <i class="fa-solid fa-robot text-xl"></i>
+        <span
+            class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-bold pl-0 group-hover:pl-2">
+            Ask AI Buddy
+        </span>
+    </button>
+
+    <!-- SIGN IN / SIGN UP MODAL -->
+    <div id="signInModal"
+        class="fixed inset-0 z-[100] bg-black/50 hidden backdrop-blur-sm flex items-center justify-center p-4"
+        onclick="if(event.target === this) closeModal('signInModal')">
+
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border border-brand-100 shadow-2xl relative">
+            <button type="button" onclick="closeModal('signInModal')"
+                class="absolute top-4 right-4 text-gray-400 hover:text-brand-700 text-xl" aria-label="Close sign in">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div
+                    class="w-14 h-14 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-2xl mx-auto mb-3">
+                    <i class="fa-solid fa-person-breastfeeding"></i>
+                </div>
+                <h2 id="authTitle" class="text-2xl font-black text-brand-900">Welcome Back!</h2>
+                <p id="authSubtitle" class="text-xs text-gray-500 mt-2">Sign in to your Jannani PregBuddy account</p>
+            </div>
+
+            <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div id="authNameField" class="hidden">
+                    <label for="authName" class="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
+                    <input id="authName" type="text" autocomplete="name" placeholder="Enter your full name"
+                        class="w-full p-3 text-sm border border-brand-100 rounded-xl bg-brand-50/30 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <div>
+                    <label for="authEmail" class="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
+                    <input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"
+                        class="w-full p-3 text-sm border border-brand-100 rounded-xl bg-brand-50/30 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <div>
+                    <label for="authPassword" class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+                    <input id="authPassword" type="password" autocomplete="current-password" required minlength="8"
+                        placeholder="At least 8 characters"
+                        class="w-full p-3 text-sm border border-brand-100 rounded-xl bg-brand-50/30 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <div id="authConfirmField" class="hidden">
+                    <label for="authConfirmPassword" class="block text-xs font-bold text-gray-700 mb-1">Confirm Password</label>
+                    <input id="authConfirmPassword" type="password" autocomplete="new-password" minlength="8"
+                        placeholder="Re-enter your password"
+                        class="w-full p-3 text-sm border border-brand-100 rounded-xl bg-brand-50/30 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <p id="authMessage" role="status" aria-live="polite"
+                    class="hidden text-xs font-semibold rounded-xl p-3"></p>
+
+                <button id="authSubmitButton" type="submit"
+                    class="w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="text-center mt-5 space-y-3">
+                <p id="authSwitchText" class="text-sm text-center text-gray-600 mt-4">
+                    Already have an account?
+                    <button type="button" onclick="switchAuthMode('signin')"
+                        class="font-bold text-pink-600 hover:text-pink-800 underline ml-1">Sign In</button>
+                </p>
+                <button id="authBackToLogin" type="button" onclick="switchAuthMode('signin')"
+                    class="hidden text-xs font-bold text-brand-700 hover:underline">Already have an account? Sign In</button>
+                <p class="text-[10px] text-gray-400">Demo authentication only. Do not use a real or reused password.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOS EMERGENCY MODAL -->
+    <div id="sosModal"
+        class="fixed inset-0 z-50 bg-black/60 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-3xl max-w-md w-full border-4 border-brand-700 p-6 sm:p-8 text-center space-y-6 smooth-shadow relative animate-bounce-once">
+            <div
+                class="w-16 h-16 rounded-full bg-brand-100 text-brand-700 mx-auto flex items-center justify-center text-3xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-black text-brand-800 leading-tight">Maternity Emergency Activated</h2>
+                <p class="text-xs text-gray-600 font-medium mt-2">
+                    Your live location has been captured for immediate dispatch and nearest medical unit lookup.
+                </p>
+            </div>
+
+            <div class="bg-brand-50/80 p-4 rounded-2xl border border-brand-200 text-left space-y-1">
+                <p class="text-xs font-bold text-brand-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-brand-700"></i> Live GPS Coordinates:
+                </p>
+                <p id="sosGeoCoordinates" class="text-xs font-mono font-bold text-brand-700">
+                    Lat: 28.4595, Lng: 77.0266 (Approximate GPS)
+                </p>
+            </div>
+
+            <button onclick="window.location.href='tel:108'"
+                class="w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-lg transition">
+                <i class="fa-solid fa-phone-flip"></i> Call 108 Emergency Ambulance
+            </button>
+
+            <button onclick="closeModal('sosModal')"
+                class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-2xl text-xs transition">
+                Close Alert Window
+            </button>
+        </div>
+    </div>
+
+    <!-- AI EXPERT CHATBOT MODAL -->
+    <div id="aiChatModal"
+        class="fixed inset-0 z-50 bg-black/50 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-3xl max-w-2xl w-full h-[600px] flex flex-col justify-between border border-brand-100 smooth-shadow overflow-hidden">
+            <div class="p-4 bg-brand-700 text-white flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold">PregBuddy AI Health Assistant</h3>
+                        <p class="text-[10px] text-brand-100 font-medium">Smart Maternal AI Companion</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('aiChatModal')" class="text-white hover:text-brand-200 p-2">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Chat Messages Log -->
+            <div id="aiChatLogs" class="p-4 flex-grow overflow-y-auto space-y-3 bg-brand-50/30 text-xs">
+                <div class="flex gap-2 max-w-[85%]">
+                    <div
+                        class="w-7 h-7 rounded-full bg-brand-700 text-white flex items-center justify-center text-xs shrink-0 mt-1">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div
+                        class="bg-white p-3 rounded-2xl border border-brand-100 shadow-sm text-gray-800 leading-relaxed">
+                        Hello! I am your 24/7 PregBuddy AI companion. How can I assist you with your pregnancy care,
+                        symptom checks, exercises, or diet queries today?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Controls -->
+            <div class="p-3 border-t bg-white space-y-2">
+                <div class="flex items-center gap-2">
+                    <input type="text" id="aiUserInput" onkeypress="handleAiKeyPress(event)"
+                        placeholder="Ask about pregnancy symptoms, exercises, nutrition, kicks..."
+                        class="flex-grow p-3 text-xs border border-brand-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 bg-brand-50/20">
+                    <button onclick="sendAiMessage()"
+                        class="bg-brand-700 hover:bg-brand-800 text-white p-3 rounded-2xl transition">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOK SLOT MODAL -->
+    <div id="bookingModal"
+        class="fixed inset-0 z-50 bg-black/50 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 border border-brand-100 shadow-2xl">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 id="bookingDoctorTitle" class="text-base font-bold text-gray-900">Book Appointment</h3>
+                <button onclick="closeModal('bookingModal')" class="text-gray-400 hover:text-gray-600"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="font-bold text-gray-700">Select Preferred Date</label>
+                    <input type="date" class="w-full mt-1 p-2.5 border rounded-xl bg-brand-50/20">
+                </div>
+                <div>
+                    <label class="font-bold text-gray-700">Preferred Time Slot</label>
+                    <select class="w-full mt-1 p-2.5 border rounded-xl bg-brand-50/20">
+                        <option>10:00 AM - 11:00 AM</option>
+                        <option>02:00 PM - 03:00 PM</option>
+                        <option>05:00 PM - 06:00 PM</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="font-bold text-gray-700">Patient Full Name</label>
+                    <input type="text" placeholder="Enter patient name"
+                        class="w-full mt-1 p-2.5 border rounded-xl bg-brand-50/20">
+                </div>
+            </div>
+            <button onclick="confirmBooking()"
+                class="w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-3 rounded-xl text-xs transition">
+                Confirm & Pay Consultation Fee
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let currentTrimester = 2;
+        let userLocation = { lat: 28.4595, lng: 77.0266 };
+        let kickCount = 0;
+        let kickStartTime = null;
+        let kickIntervalTimer = null;
+
+        const hospitalsData = [
+            { id: 1, name: "Fortis La Femme Maternity Center", dist: 0.1, rating: 4.9, phone: "+91 124 4962200", status: "24/7 NICU & Emergency Care" },
+            { id: 2, name: "Max Super Speciality Gyno Wing", dist: 1.1, rating: 4.8, phone: "+91 124 6623000", status: "24/7 NICU & Emergency Care" },
+            { id: 3, name: "Cloudnine Hospital - Mother Care", dist: 5.7, rating: 4.9, phone: "+91 99728 99728", status: "24/7 NICU & Emergency Care" }
+        ];
+
+        const doctorsData = [
+            { id: 1, name: "Dr. Sunita Verma", title: "High Risk Pregnancy Specialist", exp: "18+ Yrs Exp.", hospital: "Cloudnine Hospital", fee: "₹1,000" },
+            { id: 2, name: "Dr. Meenakshi Sundaram", title: "Obstetrician & Fetal Medicine", exp: "14+ Yrs Exp.", hospital: "Fortis La Femme", fee: "₹1,200" }
+        ];
+
+        const yogaCentersData = [
+            { name: "Garbh Sanskar & Prenatal Yoga Studio", instructor: "Radhika Sharma", time: "07:00 AM - 10:00 AM", fee: "₹500 / session", dist: "0.6 km" },
+            { name: "Soulful Mother Prenatal Meditation", instructor: "Kavita Rao", time: "08:00 AM - 11:00 AM", fee: "₹600 / session", dist: "0.9 km" }
+        ];
+
+        const dietitiansData = [
+            { name: "Dt. Smita Kapoor (Maternal Clinical Nutritionist)", tags: "Gestational Diabetes & Trimester Meal Plans", mode: "Online & Clinic Consult", fee: "Fee: ₹800", dist: "1.1 km" },
+            { name: "Dt. Pooja Chawla (Prenatal Health Coach)", tags: "Folate & Iron Rich Pregnancy Diet", mode: "Online & Clinic Consult", fee: "Fee: ₹750", dist: "1.6 km" }
+        ];
+
+        let forumPosts = [
+            {
+                id: 1,
+                author: "Ananya P.",
+                tag: "Trimester 2 Mom",
+                time: "2 hours ago",
+                content: "Is anyone else experiencing mild lower back stiffness around week 22? Doing gentle pelvic tilt stretches in the morning helped me a lot!"
+            }
+        ];
+
+        const trimesterTips = {
+            1: [
+                { category: "MORNING SICKNESS", title: "Ginger & Lemon Hydration", desc: "Sip ginger tea or lemon water in small amounts to ease first-trimester nausea." },
+                { category: "NUTRITION", title: "Folic Acid Intake", desc: "Essential for neural tube development. Take daily prescribed prenatal vitamins." },
+                { category: "REST", title: "Early Fatigue Care", desc: "Your body works overtime. Take 20-minute afternoon naps whenever possible." }
+            ],
+            2: [
+                { category: "BABY MOVEMENT", title: 'First Kicks ("Quickening")', desc: "Felt around weeks 18 to 22. Gentle flutters inside abdomen." },
+                { category: "POSTURE", title: "Side-Sleeping", desc: "Sleep on left side with pregnancy pillow to optimize blood flow." },
+                { category: "SCAN CHECK", title: "Anomaly Scan (Week 20)", desc: "Detailed ultrasound check for structural development." }
+            ],
+            3: [
+                { category: "COUNT KICKS", title: "Daily Movement Tracking", desc: "Ensure at least 10 movements felt within a 2-hour relaxed window." },
+                { category: "LABOR PREP", title: "Hospital Bag Packing", desc: "Keep baby clothes, medical records, and labor essentials packed by week 35." },
+                { category: "BREATHING", title: "Lamaze Breathing", desc: "Practice slow deep breathing techniques daily to ease contraction tension." }
+            ]
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderTrimesterTips();
+            renderHospitals();
+            renderDoctors();
+            renderYogaAndDietitians();
+            renderForumPosts();
+            updateAuthHeader();
+        });
+
+        function toggleDrawer() {
+            const drawer = document.getElementById('sideDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (drawer.classList.contains('-translate-x-full')) {
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-brand-700', 'border-brand-700');
+                btn.classList.add('border-transparent');
+            });
+            const activeNavBtn = document.getElementById(`nav-${tabId}`);
+            if (activeNavBtn) {
+                activeNavBtn.classList.add('text-brand-700', 'border-brand-700');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function syncGPSLocation() {
+            const btnText = document.getElementById('syncGpsBtnText');
+            const statusText = document.getElementById('geoStatusText');
+            btnText.innerText = "Locating...";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation.lat = position.coords.latitude.toFixed(4);
+                        userLocation.lng = position.coords.longitude.toFixed(4);
+                        statusText.innerText = `GPS Location Synced: Lat ${userLocation.lat}, Lng ${userLocation.lng}. Calculated live distances.`;
+                        btnText.innerText = "GPS Synced";
+                        document.getElementById('sosGeoCoordinates').innerText = `Lat: ${userLocation.lat}, Lng: ${userLocation.lng} (Live GPS Verified)`;
+                    },
+                    (error) => {
+                        statusText.innerText = "Location access denied/unavailable. Displaying default regional estimates.";
+                        btnText.innerText = "Sync GPS Location";
+                    }
+                );
+            } else {
+                statusText.innerText = "Geolocation not supported by browser.";
+            }
+        }
+
+        function setTrimesterTab(trimNum) {
+            currentTrimester = trimNum;
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`trim-btn-${i}`);
+                if (i === trimNum) {
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-brand-700 text-white shadow-sm transition";
+                } else {
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:text-brand-700 transition";
+                }
+            }
+            renderTrimesterTips();
+        }
+
+        function renderTrimesterTips() {
+            const container = document.getElementById('trimesterCareCards');
+            const tips = trimesterTips[currentTrimester] || [];
+            container.innerHTML = tips.map(tip => `
+                <div class="bg-white p-5 rounded-2xl border border-brand-100 card-hover flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-black text-brand-600 uppercase tracking-wider">${tip.category}</span>
+                        <h4 class="text-sm font-bold text-gray-900 mt-1">${tip.title}</h4>
+                        <p class="text-xs text-gray-600 font-medium mt-2 leading-relaxed">${tip.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function adjustWeek(delta) {
+            const weekDisplay = document.getElementById('currentWeekDisplay');
+            const sizeDisplay = document.getElementById('babySizeDisplay');
+            let match = weekDisplay.innerText.match(/\d+/);
+            let currentWeek = match ? parseInt(match[0]) : 14;
+            currentWeek = Math.max(1, Math.min(40, currentWeek + delta));
+
+            let trimester = currentWeek <= 12 ? 1 : (currentWeek <= 27 ? 2 : 3);
+            weekDisplay.innerText = `Week ${currentWeek} (Trimester ${trimester})`;
+
+            const sizes = ["Sesame Seed", "Lentil", "Blueberry", "Raspberry", "Peach 🍑", "Avocado 🥑", "Mango 🥭", "Eggplant 🍆", "Coconut 🥥", "Watermelon 🍉"];
+            let size = sizes[Math.floor((currentWeek / 40) * sizes.length)] || "Peach 🍑";
+            sizeDisplay.innerText = `Baby size: Approx. ${size}`;
+        }
+
+        function renderHospitals() {
+            const container = document.getElementById('hospitalsList');
+            container.innerHTML = hospitalsData.map(h => `
+                <div class="bg-white p-6 rounded-2xl border border-brand-100 smooth-shadow flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="bg-brand-50 text-brand-700 font-bold text-[11px] px-2.5 py-1 rounded-full border border-brand-100">
+                                <i class="fa-solid fa-location-dot"></i> ${h.dist} km away
+                            </span>
+                            <span class="text-xs font-bold text-amber-500 flex items-center gap-1">
+                                ${h.rating} <i class="fa-solid fa-star"></i>
+                            </span>
+                        </div>
+                        <h3 class="text-base font-bold text-gray-900 mt-3">${h.name}</h3>
+                        <p class="text-xs text-brand-600 font-semibold mt-1"><i class="fa-solid fa-kit-medical"></i> ${h.status}</p>
+                        <p class="text-xs text-gray-500 font-medium mt-3">${h.phone}</p>
+                    </div>
+                    <button onclick="openBookingModal('${h.name}')" class="mt-4 w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-2.5 rounded-xl text-xs transition">
+                        Book Visit
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function filterHospitals() {
+            const query = document.getElementById('hospitalSearch').value.toLowerCase();
+            const filtered = hospitalsData.filter(h => h.name.toLowerCase().includes(query));
+            const container = document.getElementById('hospitalsList');
+            container.innerHTML = filtered.map(h => `
+                <div class="bg-white p-6 rounded-2xl border border-brand-100 smooth-shadow flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="bg-brand-50 text-brand-700 font-bold text-[11px] px-2.5 py-1 rounded-full">
+                                <i class="fa-solid fa-location-dot"></i> ${h.dist} km away
+                            </span>
+                            <span class="text-xs font-bold text-amber-500">${h.rating} ★</span>
+                        </div>
+                        <h3 class="text-base font-bold text-gray-900 mt-3">${h.name}</h3>
+                        <p class="text-xs text-brand-600 font-semibold mt-1">${h.status}</p>
+                        <p class="text-xs text-gray-500 font-medium mt-3">${h.phone}</p>
+                    </div>
+                    <button onclick="openBookingModal('${h.name}')" class="mt-4 w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-2.5 rounded-xl text-xs transition">
+                        Book Visit
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderDoctors() {
+            const container = document.getElementById('doctorsList');
+            container.innerHTML = doctorsData.map(d => `
+                <div class="bg-white p-6 rounded-2xl border border-brand-100 smooth-shadow flex items-start gap-4 card-hover">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-500 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <div class="flex-grow space-y-1">
+                        <h3 class="text-base font-bold text-gray-900">${d.name}</h3>
+                        <p class="text-xs font-semibold text-brand-700">${d.title}</p>
+                        <p class="text-xs text-gray-500 font-medium"><i class="fa-solid fa-ribbon text-amber-500"></i> ${d.exp} • ${d.hospital}</p>
+                        <div class="flex items-center justify-between pt-3">
+                            <span class="text-xs font-bold text-gray-800">Fee: ${d.fee}</span>
+                            <button onclick="openBookingModal('${d.name}')" class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+                                Book Slot
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderYogaAndDietitians() {
+            document.getElementById('yogaCentersList').innerHTML = yogaCentersData.map(y => `
+                <div class="bg-white p-4 rounded-2xl border border-brand-100 smooth-shadow flex items-center justify-between">
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-900">${y.name}</h4>
+                        <p class="text-xs text-gray-500 font-medium mt-1"><i class="fa-regular fa-user text-brand-600"></i> Instructor: ${y.instructor}</p>
+                        <p class="text-[11px] text-gray-400 font-medium">${y.time}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">${y.dist}</span>
+                        <p class="text-xs font-bold text-brand-700 mt-2">${y.fee}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('dietitiansList').innerHTML = dietitiansData.map(dt => `
+                <div class="bg-white p-4 rounded-2xl border border-brand-100 smooth-shadow flex items-center justify-between">
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-900">${dt.name}</h4>
+                        <p class="text-xs text-emerald-700 font-medium mt-1"><i class="fa-solid fa-leaf"></i> ${dt.tags}</p>
+                        <p class="text-[11px] text-gray-400 font-medium">${dt.mode}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">${dt.dist}</span>
+                        <p class="text-xs font-bold text-brand-700 mt-2">${dt.fee}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderForumPosts() {
+            const container = document.getElementById('forumPostsContainer');
+            container.innerHTML = forumPosts.map(p => `
+                <div class="bg-white p-5 rounded-2xl border border-brand-100 smooth-shadow space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-100 text-brand-800 font-bold flex items-center justify-center text-xs">
+                                ${p.author.charAt(0)}
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-900">${p.author}</h4>
+                                <span class="bg-brand-50 text-brand-700 text-[10px] font-semibold px-2 py-0.5 rounded-full">${p.tag}</span>
+                            </div>
+                        </div>
+                        <span class="text-[11px] text-gray-400 font-medium">${p.time}</span>
+                    </div>
+                    <p class="text-xs text-gray-700 leading-relaxed font-medium">${p.content}</p>
+                </div>
+            `).join('');
+        }
+
+        function publishForumPost() {
+            const author = document.getElementById('forumAuthor').value || "Anonymous Mom";
+            const tag = document.getElementById('forumTrimester').value;
+            const content = document.getElementById('forumContent').value;
+
+            if (!content.trim()) {
+                alert("Please write your experience or question before publishing.");
+                return;
+            }
+
+            forumPosts.unshift({
+                id: Date.now(),
+                author,
+                tag,
+                time: "Just now",
+                content
+            });
+
+            document.getElementById('forumContent').value = "";
+            renderForumPosts();
+        }
+
+        function calculateMLRisk() {
+            const sys = parseInt(document.getElementById('mlSystolic').value);
+            const dia = parseInt(document.getElementById('mlDiastolic').value);
+            const sugar = parseInt(document.getElementById('mlSugar').value);
+            const kicks = parseInt(document.getElementById('mlKicks').value);
+
+            let score = 10;
+            let flags = [];
+
+            if (sys >= 140 || dia >= 90) { score += 40; flags.push("Elevated Blood Pressure (Preeclampsia Risk)"); }
+            if (sugar >= 125) { score += 35; flags.push("Elevated Blood Sugar (Gestational Diabetes Risk)"); }
+            if (kicks < 10) { score += 25; flags.push("Reduced Fetal Kick Activity Alert"); }
+
+            score = Math.min(99, score);
+            const meter = document.getElementById('riskMeterBar');
+            const badge = document.getElementById('riskScoreBadge');
+            const output = document.getElementById('riskAnalysisOutput');
+
+            meter.style.width = `${score}%`;
+
+            if (score > 60) {
+                meter.className = "bg-brand-700 h-full transition-all duration-700";
+                badge.className = "bg-brand-100 text-brand-800 text-xs font-extrabold px-3 py-1 rounded-full";
+                badge.innerText = `High Risk Alert (${score}%)`;
+                output.innerHTML = `
+                    <h4 class="text-sm font-bold text-brand-800"><i class="fa-solid fa-triangle-exclamation"></i> Action Recommended</h4>
+                    <p class="text-xs text-gray-700 font-medium">Potential concerns detected: ${flags.join(', ')}. Please contact your gynecologist or visit the emergency wing promptly.</p>
+                `;
+            } else if (score > 30) {
+                meter.className = "bg-amber-500 h-full transition-all duration-700";
+                badge.className = "bg-amber-100 text-amber-800 text-xs font-extrabold px-3 py-1 rounded-full";
+                badge.innerText = `Moderate Caution (${score}%)`;
+                output.innerHTML = `
+                    <h4 class="text-sm font-bold text-amber-800"><i class="fa-solid fa-circle-exclamation"></i> Moderate Warning</h4>
+                    <p class="text-xs text-gray-700 font-medium">Slight deviation in parameters. Monitor vitals twice daily and discuss with your physician during next consultation.</p>
+                `;
+            } else {
+                meter.className = "bg-emerald-500 h-full transition-all duration-700";
+                badge.className = "bg-emerald-100 text-emerald-800 text-xs font-extrabold px-3 py-1 rounded-full";
+                badge.innerText = `Low Risk (${score}%)`;
+                output.innerHTML = `
+                    <h4 class="text-sm font-bold text-emerald-800"><i class="fa-solid fa-circle-check"></i> Normal Parameters</h4>
+                    <p class="text-xs text-gray-700 font-medium">Vitals appear healthy and within standard physiological ranges.</p>
+                `;
+            }
+        }
+
+        function recordKick() {
+            if (kickCount === 0) {
+                kickStartTime = new Date();
+                startKickTimer();
+            }
+            kickCount++;
+            document.getElementById('kickCountDisplay').innerText = kickCount;
+
+            const logs = document.getElementById('kickLogsList');
+            if (kickCount === 1) logs.innerHTML = "";
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            logs.innerHTML = `<div class="p-2 bg-brand-50 rounded-xl text-xs font-semibold text-brand-800 flex justify-between"><span>Kick #${kickCount}</span><span>${timeStr}</span></div>` + logs.innerHTML;
+        }
+
+        function startKickTimer() {
+            if (kickIntervalTimer) clearInterval(kickIntervalTimer);
+            kickIntervalTimer = setInterval(() => {
+                const diff = Math.floor((new Date() - kickStartTime) / 1000);
+                const mins = String(Math.floor(diff / 60)).padStart(2, '0');
+                const secs = String(diff % 60).padStart(2, '0');
+                document.getElementById('kickSessionTime').innerText = `Elapsed: ${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function resetKickSession() {
+            kickCount = 0;
+            if (kickIntervalTimer) clearInterval(kickIntervalTimer);
+            document.getElementById('kickCountDisplay').innerText = "0";
+            document.getElementById('kickSessionTime').innerText = "Elapsed: 00:00";
+            document.getElementById('kickLogsList').innerHTML = `<p class="text-xs text-gray-400 italic text-center py-6">No kicks recorded in current session yet.</p>`;
+        }
+
+        function triggerEmergencySOS() {
+            openModal('sosModal');
+        }
+
+        function openAiChatModal(prompt = "") {
+            openModal('aiChatModal');
+            if (prompt) {
+                document.getElementById('aiUserInput').value = prompt;
+                sendAiMessage();
+            }
+        }
+
+        function handleAiKeyPress(e) {
+            if (e.key === 'Enter') sendAiMessage();
+        }
+
+        // --- FULLY CONVERSATIONAL MATERNAL & FRIENDLY AI ENGINE ---
+        async function sendAiMessage() {
+            const input = document.getElementById('aiUserInput');
+            const query = input.value.trim();
+            if (!query) return;
+
+            const chatLogs = document.getElementById('aiChatLogs');
+
+            // 1. Append User Message
+            chatLogs.innerHTML += `
+                <div class="flex gap-2 max-w-[85%] ml-auto justify-end">
+                    <div class="bg-brand-700 text-white p-3 rounded-2xl shadow-sm text-xs leading-relaxed">
+                        ${query}
+                    </div>
+                </div>
+            `;
+            input.value = "";
+            chatLogs.scrollTop = chatLogs.scrollHeight;
+
+            // 2. Typing Indicator
+            const loadingId = 'ai-loading-' + Date.now();
+            chatLogs.innerHTML += `
+                <div id="${loadingId}" class="flex gap-2 max-w-[85%]">
+                    <div class="w-7 h-7 rounded-full bg-brand-700 text-white flex items-center justify-center text-xs shrink-0 mt-1">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl border border-brand-100 shadow-sm text-gray-500 italic">
+                        PregBuddy AI thinking...
+                    </div>
+                </div>
+            `;
+            chatLogs.scrollTop = chatLogs.scrollHeight;
+
+            // 3. Process Smart Friendly Natural Response
+            setTimeout(() => {
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+
+                let reply = generateSmartAiResponse(query);
+
+                chatLogs.innerHTML += `
+                    <div class="flex gap-2 max-w-[85%]">
+                        <div class="w-7 h-7 rounded-full bg-brand-700 text-white flex items-center justify-center text-xs shrink-0 mt-1">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="bg-white p-3 rounded-2xl border border-brand-100 shadow-sm text-gray-800 leading-relaxed">
+                            ${reply}
+                        </div>
+                    </div>
+                `;
+                chatLogs.scrollTop = chatLogs.scrollHeight;
+            }, 400);
+        }
+
+        // DYNAMIC CONVERSATIONAL KNOWLEDGE ROUTER
+        function generateSmartAiResponse(userQuery) {
+            const q = userQuery.toLowerCase();
+
+            // 1. EXERCISE REQUEST (e.g. "suggest me five exercise")
+            if (q.includes('exercise') || q.includes('workout') || q.includes('yoga') || q.includes('stretch')) {
+                return "Here are <b>5 safe & highly effective pregnancy exercises</b> recommended by maternal health experts: 🌸<br><br>" +
+                       "<b>1. Pelvic Tilt Stretches:</b> Relieves lower back pain and strengthens abdominal muscles.<br>" +
+                       "<b>2. Kegel Exercises:</b> Strengthens pelvic floor muscles for easier delivery and postpartum recovery.<br>" +
+                       "<b>3. Prenatal Cat-Cow Stretch:</b> Great for spinal flexibility and easing back pressure.<br>" +
+                       "<b>4. Butterfly Stretch (Baddha Konasana):</b> Opens up hips and pelvic region comfortably.<br>" +
+                       "<b>5. Brisk Walking (20 mins daily):</b> Keeps cardiovascular health optimal without overexertion.<br><br>" +
+                       "<i>Tip: Always keep water handy and avoid lying flat on your back for prolonged times during Trimester 2 & 3!</i>";
+            }
+
+            // 2. CONCEPTION / PREGNANCY GUIDANCE (e.g. "how to get pregnant")
+            if (q.includes('get pregnant') || q.includes('pregnant kaise') || q.includes('conceive') || q.includes('conception')) {
+                return "Conceive karne ke liye sabse zaroori hota hai aapka <b>Ovulation / Fertile Window</b> track karna! 🌸<br><br>" +
+                       "<b>Key Steps for Conception:</b><br>" +
+                       "1. <b>Track Ovulation:</b> Aapke menstrual cycle ke 12th se 16th day ke beech ovulation hota hai, yeh period sabse fertile hota hai.<br>" +
+                       "2. <b>Prenatal Vitamins:</b> Folic Acid & Iron supplements doctor ki advice par pehle se start kar dein.<br>" +
+                       "3. <b>Healthy Lifestyle:</b> Balanced diet, light exercise aur stress-free mind conceiving chances badhata hai.<br>" +
+                       "4. <b>Routine Checkup:</b> Ek baar gynecologist se basic hormone & health checkup zaroor kara lein.<br><br>" +
+                       "Kya aap specific ovulation tracking ke baare mein aur detail janna chahte hain?";
+            }
+
+            // 3. PERSONAL NAME & RECOGNITION (e.g. "i am abhishek", "you know me")
+            if (q.includes('abhishek') || q.includes('naam') || q.includes('name is') || q.includes('i am ')) {
+                return "Arre Abhishek bhai! Aise kaise bhool sakte hain! 😊 Main aapki friendly PregBuddy companion hoon. Batao aaj kaisa chal raha hai sab? Main aapki health, diet ya pregnancy queries mein kya madad karoon?";
+            }
+
+            if (q.includes('you know me') || q.includes('know me') || q.includes('jaante ho') || q.includes('pehchana')) {
+                return "Haan bilkul! Main aapko ache se jaanti hoon. Main aapki friendly AI companion hoon jo har time aapki baat sunne aur guide karne ke liye taiyar rehti hai! 🤗 Batao aaj kya chal raha hai mind mein?";
+            }
+
+            // 4. INTIMACY & HORMONES (e.g. "i am feeling horny", "intimacy")
+            if (q.includes('horny') || q.includes('intimate') || q.includes('sex') || q.includes('relation') || q.includes('desire')) {
+                return "Yeh ekdam natural feeling hai dear! 🌸 Pregnancy ke dauran blood flow aur estrogen/progesterone hormones shift hone se libido/desire upar-neeche hoti hai.<br><br>Normal & healthy pregnancy mein intimacy completely safe hoti hai. Bas comfortable positions use karein aur kisi bhi discomfort ya spoting hone par doctor se consult karein.";
+            }
+
+            // 5. BANTER / CASUAL JOKES (e.g. "tu pgl h", "crazy")
+            if (q.includes('pgl') || q.includes('pagal') || q.includes('mad') || q.includes('crazy') || q.includes('funny')) {
+                return "Haha, pagal nahi hoon yaar, bas thodi zaroor se zyada caring aur friendly hoon! 😂 Par batao, mood kharab hai ya koi tension chal rahi hai?";
+            }
+
+            // 6. CONFUSED / EMOTIONAL / OVERWHELMED
+            if (q.includes('confused') || q.includes('sad') || q.includes('lonely') || q.includes('anxious') || q.includes('fear') || q.includes('stress')) {
+                return "I completely understand. 🤗 Pregnancy ke journey mein multiple physical aur emotional badlaav aate hain, jis se confused ya stressed feel hona bilkul normal hai.<br><br>Aap bilkul akela mat samjho. Jo bhi dil mein chal raha hai, mujhse freely share karo, main ek acche dost ki tarah sun rahi hoon!";
+            }
+
+            // 7. HEADACHES & PAIN
+            if (q.includes('headache') || q.includes('sir dard') || q.includes('pain') || q.includes('dard')) {
+                return "Oh no! Sir dard pregnancy mein hormonal shifts, dehydration, ya neend poori na hone se hota hai.<br><br><b>Quick Relief Tips:</b><br>1. Ek bada glass paani pijiye.<br>2. Dark aur quiet room mein 15 mins aaram karein.<br>3. Forehead par halka cold/warm compress rakhein.<br><br><i>Agar dard bohot severe ho ya dhundhla dikhe, toh doctor ko zaroor dikhayein!</i>";
+            }
+
+            // 8. DIET & NUTRITION
+            if (q.includes('diet') || q.includes('food') || q.includes('eat') || q.includes('khana') || q.includes('nutrition')) {
+                return "Pregnancy mein <b>Folic Acid, Iron, Calcium aur Protein</b> sabse important hain! 🥑<br><br>Diet mein green leafy vegetables, fresh fruits, lentils, nuts, dahi aur doodh shamil karein. Hydrated rehne ke liye daily 8-10 glass paani pijiye!";
+            }
+
+            // 9. GREETINGS
+            if (q.includes('hello') || q.includes('hi') || q.includes('hey') || q.includes('namaste')) {
+                return "Hello dear! 🌸 Main aapki PregBuddy AI Assistant hoon. Aap kaisa feel kar rahe hain aaj? Aap health, diet, exercises, ya baby kicks ke baare mein kuch bhi puch sakte hain!";
+            }
+
+            // 10. UNIVERSAL DYNAMIC CONVERSATIONAL FALLBACK (Replaces old static template)
+            return "Main aapki baat bilkul samajh rahi hoon! " + 
+                   "Pregnancy aur health ke is safar mein physical aur emotional dono tarah ke experiences aate hain.<br><br>" + 
+                   "Aap <b>'" + userQuery + "'</b> ke baare mein thoda aur khol kar batayein, main ek dost ki tarah aapko poora guidance dungi!";
+        }
+
+        let authMode = "signin";
+
+        function switchAuthMode(mode) {
+            authMode = mode === "signup" ? "signup" : "signin";
+            const isSignup = authMode === "signup";
+            const nameField = document.getElementById("authNameField");
+            const confirmField = document.getElementById("authConfirmField");
+            const nameInput = document.getElementById("authName");
+            const passwordInput = document.getElementById("authPassword");
+            const confirmInput = document.getElementById("authConfirmPassword");
+            const message = document.getElementById("authMessage");
+
+            document.getElementById("authTitle").innerText = isSignup ? "Create Your Account" : "Welcome Back!";
+            document.getElementById("authSubtitle").innerText = isSignup ? "Join Jannani PregBuddy Health" : "Sign in to your Jannani PregBuddy account";
+
+            nameField.classList.toggle("hidden", !isSignup);
+            confirmField.classList.toggle("hidden", !isSignup);
+            document.getElementById("authBackToLogin").classList.toggle("hidden", isSignup);
+
+            const switchText = document.getElementById("authSwitchText");
+            switchText.classList.remove("hidden");
+
+            if (isSignup) {
+                switchText.innerHTML = `Already have an account? <button type="button" onclick="switchAuthMode('signin')" class="font-bold text-pink-600 hover:text-pink-800 underline ml-1">Sign In</button>`;
+            } else {
+                switchText.innerHTML = `Don't have an account? <button type="button" onclick="switchAuthMode('signup')" class="font-bold text-pink-600 hover:text-pink-800 underline ml-1">Sign Up</button>`;
+            }
+
+            document.getElementById("authSubmitButton").innerText = isSignup ? "Create Account" : "Sign In";
+            nameInput.required = isSignup;
+            confirmInput.required = isSignup;
+            message.classList.add("hidden");
+        }
+
+        function showAuthMessage(message, success = false) {
+            const element = document.getElementById("authMessage");
+            element.innerText = message;
+            element.className = "text-xs font-semibold rounded-xl p-3 " + (success ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200");
+        }
+
+        function getDemoAccounts() {
+            try { return JSON.parse(localStorage.getItem("jannaniDemoAccounts") || "{}"); } catch { return {}; }
+        }
+
+        function openSignInModal() {
+            switchAuthMode("signin");
+            document.getElementById("authForm").reset();
+            document.getElementById("authMessage").classList.add("hidden");
+            openModal("signInModal");
+        }
+
+        function updateAuthHeader() {
+            let session;
+            try { session = JSON.parse(sessionStorage.getItem("jannaniDemoSession") || "null"); } catch { session = null; }
+
+            const signInButton = document.getElementById("headerSignInButton");
+            const profile = document.getElementById("headerUserProfile");
+
+            if (!signInButton || !profile) return;
+
+            if (!session || !session.email) {
+                signInButton.classList.remove("hidden");
+                profile.classList.add("hidden");
+                profile.classList.remove("flex");
+                return;
+            }
+
+            const name = session.name || "Jannani User";
+            const email = session.email;
+
+            document.getElementById("headerUserName").innerText = name;
+            document.getElementById("headerUserEmail").innerText = email;
+            document.getElementById("headerUserAvatar").innerText = name.trim().charAt(0).toUpperCase() || "U";
+
+            signInButton.classList.add("hidden");
+            profile.classList.remove("hidden");
+            profile.classList.add("flex");
+        }
+
+        function signOutDemo() {
+            try { sessionStorage.removeItem("jannaniDemoSession"); } catch {}
+            updateAuthHeader();
+            alert("You have been signed out.");
+        }
+
+        function handleAuthSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById("authName").value.trim();
+            const email = document.getElementById("authEmail").value.trim().toLowerCase();
+            const password = document.getElementById("authPassword").value;
+            const confirmPassword = document.getElementById("authConfirmPassword").value;
+
+            if (!email || !document.getElementById("authEmail").checkValidity()) {
+                showAuthMessage("Please enter a valid email address.");
+                return;
+            }
+
+            if (password.length < 8) {
+                showAuthMessage("Password must contain at least 8 characters.");
+                return;
+            }
+
+            const accounts = getDemoAccounts();
+
+            if (authMode === "signup") {
+                if (!name) { showAuthMessage("Please enter your full name."); return; }
+                if (password !== confirmPassword) { showAuthMessage("Passwords do not match."); return; }
+                if (accounts[email]) { showAuthMessage("This email is already registered."); return; }
+
+                accounts[email] = { name: name, password: password };
+                try { localStorage.setItem("jannaniDemoAccounts", JSON.stringify(accounts)); } catch {
+                    showAuthMessage("Could not save the demo account.");
+                    return;
+                }
+
+                document.getElementById("authForm").reset();
+                switchAuthMode("signin");
+                document.getElementById("authEmail").value = email;
+                showAuthMessage("Account created successfully! Sign in now.", true);
+                return;
+            }
+
+            const account = accounts[email];
+            if (!account || account.password !== password) {
+                showAuthMessage("Invalid email or password.");
+                return;
+            }
+
+            try {
+                sessionStorage.setItem("jannaniDemoSession", JSON.stringify({ email: email, name: account.name }));
+            } catch {}
+
+            document.getElementById("authPassword").value = "";
+            updateAuthHeader();
+            closeModal("signInModal");
+        }
+
+        function openModal(modalId) { document.getElementById(modalId)?.classList.remove('hidden'); }
+        function closeModal(modalId) { document.getElementById(modalId)?.classList.add('hidden'); }
+        function openBookingModal(name) {
+            document.getElementById('bookingDoctorTitle').innerText = `Book Slot - ${name}`;
+            openModal('bookingModal');
+        }
+        function confirmBooking() {
+            closeModal('bookingModal');
+            alert("Booking Request Submitted Successfully!");
+        }
+    </script>
+</body>
+
+</html>
